@@ -17,16 +17,14 @@ const monedas = ref([
     criptomoneda:'',
   });
 
-
+  const cotizacion = ref({});
 
   onMounted(()=>{
     const url =('https://min-api.cryptocompare.com/data/top/totaltoptiervolfull?limit=20&tsym=USD');
     fetch(url)
       .then(respuesta=>respuesta.json())
       .then(({Data}) =>criptoMonedas.value = Data)
-
-
-  })
+  })                   
 
   const cotizarCripto=()=>{
     //vallidar que cotizar este lleno
@@ -43,8 +41,10 @@ const monedas = ref([
   const obtenerCotizacion= async ()=>{
     const {moneda,criptomoneda} =cotizar
     const url =`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`
-    
-    console.log(url);
+    const respuesta = await fetch(url);
+    const data = await respuesta.json();
+    cotizacion.value=data.DISPLAY[criptomoneda][moneda];
+    console.log(cotizacion.value);
   }
 
 </script>
