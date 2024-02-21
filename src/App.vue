@@ -26,6 +26,7 @@ const monedas = ref([
 
     <div class="contenido">
       <form class="formulario">
+
         <div class="campo">
           <label for="moneda">Moneda</label>
           <select id="moneda" class="">
@@ -36,9 +37,21 @@ const monedas = ref([
                 {{ moneda.texto }}
             </option>
           </select>
-          
-
         </div>
+
+        <div class="campo">
+          <label for="cripto">Criptomoneda</label>
+          <select id="cripto" class="">
+            <option value="">--- Selecciona --- </option>
+            <option 
+              v-for="criptomoneda in criptoMonedas"
+              :value="criptomoneda.CoinInfo.Name">
+                {{ criptomoneda.CoinInfo.FullName}}
+            </option>
+          </select>
+        </div>
+
+        <input type="submit" value="Cotizar"/>
       </form>
     </div>
 
