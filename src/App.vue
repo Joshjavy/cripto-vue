@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, reactive,  onMounted } from 'vue'
+  import { ref, reactive,  onMounted, computed} from 'vue'
   import Alerta from './components/Alerta.vue'
 
 const monedas = ref([
@@ -11,13 +11,17 @@ const monedas = ref([
 
   const criptoMonedas = ref([]);
   const error = ref('');
+  const cotizacion = ref({});
+
+
+
 
   const cotizar = reactive({
     moneda:'',
     criptomoneda:'',
   });
 
-  const cotizacion = ref({});
+  
 
   onMounted(()=>{
     const url =('https://min-api.cryptocompare.com/data/top/totaltoptiervolfull?limit=20&tsym=USD');
@@ -46,6 +50,11 @@ const monedas = ref([
     cotizacion.value=data.DISPLAY[criptomoneda][moneda];
   }
 
+  const mostrarResultado = computed(()=>{
+
+    return Object.values(cotizacion.value).length >0 ;
+    
+  })
 </script>
 
 <template>
@@ -92,7 +101,7 @@ const monedas = ref([
         <input type="submit" value="Cotizar"/>
       </form>
 
-      <div class="contenedor-resultado">
+      <div v-if="mostrarResultado" class="contenedor-resultado">
         <h2>Cotizacion</h2>
 
         <div class="resultado">
